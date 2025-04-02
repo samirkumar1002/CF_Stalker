@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
-import HeroLayout from './pages/HeroLayout';
-import Hero from './pages/Hero';
-import Topic from './pages/Topic';
+import HeroLayout from './pages/HeroLayout.jsx';
+import Hero from './pages/Hero.jsx';
+import Topic from './pages/Topic.jsx';
 
 function App() {
   return (

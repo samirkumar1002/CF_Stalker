@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext , useState} from 'react';
 import { HeroContext } from './HeroLayout';
 import { Link } from 'react-router-dom';
 
@@ -14,9 +14,10 @@ function Hero() {
     toDate,
     setToDate,
     sortOrder,
-    setSortOrder
+    setSortOrder,
+    showDateInputs,
+    setShowDateInputs
   } = useContext(HeroContext);
-
   const filterByDate = (problems) => {
     if (!fromDate || !toDate) return problems;
     const fromTimestamp = new Date(fromDate).getTime();
@@ -72,13 +73,13 @@ function Hero() {
 
         <button
           className="mb-4 px-4 py-2 bg-cf-blue text-white rounded hover:bg-opacity-90 transition-colors"
-          onClick={() => {}}
+          onClick={() => setShowDateInputs(!showDateInputs)}
         >
           Select Date Range
         </button>
 
         {/* Date inputs (they remain visible if already set; adjust as desired) */}
-        {(fromDate || toDate) && (
+        {showDateInputs && (
           <div className="mb-4 flex space-x-4">
             <input 
               type="date" 

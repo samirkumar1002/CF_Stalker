@@ -15,6 +15,7 @@ function HeroLayout() {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [showDateInputs, setShowDateInputs] = useState(false);
 
   useEffect(() => {
     // Fetch user info
@@ -83,7 +84,9 @@ function HeroLayout() {
         setToDate,
         sortOrder,
         setSortOrder,
-        handle
+        handle,
+        showDateInputs,
+        setShowDateInputs
       }}
     >
       <div className="min-h-screen bg-cf-dark p-6">
