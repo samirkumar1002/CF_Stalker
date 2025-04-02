@@ -4,6 +4,7 @@ import HeroLayout from './pages/HeroLayout.jsx';
 import Hero from './pages/Hero.jsx';
 import Topic from './pages/Topic.jsx';
 import { ThemeProvider } from './context/ThemeContext';
+import { Analytics } from '@vercel/analytics/next';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           </main>
         </div>
       </Router>
+      <Analytics />
     </ThemeProvider>
   );
 }
