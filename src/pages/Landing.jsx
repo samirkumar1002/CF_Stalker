@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ThemeToggle from '../components/ThemeToggle';
 
 function Landing() {
   const [handle, setHandle] = useState('');
@@ -19,43 +20,44 @@ function Landing() {
   };
 
   return (
-    <div className="min-h-screen bg-cf-dark">
-      <nav className="bg-cf-dark border-b border-cf-gray">
+    <div className="min-h-screen bg-cf-dark dark:bg-cf-dark-light">
+      <nav className="bg-cf-dark dark:bg-cf-dark-light border-b border-cf-gray dark:border-cf-gray-light">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-12">
             <div className="flex items-center space-x-4">
-              <span className="text-cf-blue font-bold text-xl">CF Stalker</span>
+              <span className="text-cf-blue dark:text-cf-blue-light font-bold text-lg sm:text-xl">CF Stalker</span>
             </div>
+            <ThemeToggle />
           </div>
         </div>
       </nav>
 
-      <div className="flex items-center justify-center min-h-[calc(100vh-3rem)]">
+      <div className="flex items-center justify-center min-h-[calc(100vh-3rem)] px-4">
         <div className="w-full max-w-md">
-          <div className="bg-cf-gray rounded-lg shadow-cf p-8">
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-cf-blue mb-2">CF Stalker</h1>
-              <p className="text-cf-text">Your Stalking Companion</p>
+          <div className="bg-cf-gray dark:bg-cf-gray-light rounded-lg shadow-cf p-6 sm:p-8">
+            <div className="text-center mb-6 sm:mb-8">
+              <h1 className="text-3xl sm:text-4xl font-bold text-cf-blue dark:text-cf-blue-light mb-2">CF Stalker</h1>
+              <p className="text-cf-text dark:text-cf-text-light text-sm sm:text-base">Your Stalking Companion</p>
             </div>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label className="block text-sm font-medium text-cf-text mb-2">Handle</label>
+                <label className="block text-sm font-medium text-cf-text dark:text-cf-text-light mb-2">Handle</label>
                 <input
                   type="text"
                   value={handle}
                   onChange={(e) => setHandle(e.target.value)}
-                  className="w-full px-4 py-2 bg-cf-dark border border-cf-gray rounded text-cf-text focus:outline-none focus:border-cf-blue"
+                  className="w-full px-4 py-2 bg-cf-dark dark:bg-cf-dark-light border border-cf-gray dark:border-cf-gray-light rounded text-cf-text dark:text-cf-text-light focus:outline-none focus:border-cf-blue dark:focus:border-cf-blue-light text-sm sm:text-base"
                   placeholder="Enter Codeforces handle"
                   required
                 />
               </div>
-              <button type="submit" className="w-full bg-cf-blue text-white py-2 px-4 rounded hover:bg-opacity-90 transition-colors">
+              <button type="submit" className="w-full bg-cf-blue dark:bg-cf-blue-light text-white py-2 px-4 rounded hover:bg-opacity-90 transition-colors text-sm sm:text-base">
                 Enter
               </button>
             </form>
           </div>
-          <div className="mt-6 text-center text-sm text-cf-text">
+          <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-cf-text dark:text-cf-text-light">
             <p>© 2025 CF Stalker. All rights reserved.</p>
           </div>
         </div>

@@ -1,6 +1,7 @@
 // HeroLayout.jsx
 import React, { useEffect, useState, createContext } from 'react';
 import { Outlet, useParams, Link } from 'react-router-dom';
+import ThemeToggle from '../components/ThemeToggle';
 
 export const HeroContext = createContext();
 
@@ -89,11 +90,12 @@ function HeroLayout() {
         setShowDateInputs
       }}
     >
-      <div className="min-h-screen bg-cf-dark p-6">
-        <nav className="bg-cf-dark border-b border-cf-gray p-4 flex justify-between">
-          <Link to="/" className="text-cf-blue font-bold text-xl hover:text-cf-link">
+      <div className="min-h-screen bg-cf-dark dark:bg-cf-dark-light p-6">
+        <nav className="bg-cf-dark dark:bg-cf-dark-light border-b border-cf-gray dark:border-cf-gray-light p-4 flex justify-between items-center">
+          <Link to="/" className="text-cf-blue dark:text-cf-blue-light font-bold text-xl hover:text-cf-link dark:hover:text-cf-link-light">
             CF Stalker
           </Link>
+          <ThemeToggle />
         </nav>
         <Outlet />
       </div>
