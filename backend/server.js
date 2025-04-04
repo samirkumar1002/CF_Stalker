@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 // Enable CORS for all routes with specific configuration
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], // Vite's default ports
+  origin: ['*'], // Vite's default ports
   methods: ['GET', 'POST'],
   credentials: true
 }));
