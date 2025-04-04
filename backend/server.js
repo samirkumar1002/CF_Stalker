@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 // Enable CORS for all routes with specific configuration
 app.use(cors({
-  origin: ['*'], // Vite's default ports
+  origin: ['https://cf-stalker-web.onrender.com', 'http://localhost:5173'], // Frontend domain and local development
   methods: ['GET', 'POST'],
   credentials: true
 }));
