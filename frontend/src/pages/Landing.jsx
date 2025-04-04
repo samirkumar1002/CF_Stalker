@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import ThemeToggle from '../components/ThemeToggle';
 
 function Landing() {
@@ -42,7 +42,7 @@ function Landing() {
 
             <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label className="block text-sm font-medium text-cf-text dark:text-cf-text-light mb-2">Handle</label>
+                <label className="block text-sm font-medium text-cf-text dark:text-cf-text-light mb-2"></label>
                 <input
                   type="text"
                   value={handle}
@@ -56,6 +56,15 @@ function Landing() {
                 Enter
               </button>
             </form>
+            
+            <div className="mt-6 text-center">
+              <Link 
+                to="/contests" 
+                className="w-full inline-block bg-cf-blue dark:bg-cf-blue-light text-white py-2 px-4 rounded hover:bg-opacity-90 transition-colors text-sm sm:text-base"
+              >
+                Contest Analyzer
+              </Link>
+            </div>
           </div>
           <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-cf-text dark:text-cf-text-light">
             <p>© 2025 CF Stalker. All rights reserved.</p>

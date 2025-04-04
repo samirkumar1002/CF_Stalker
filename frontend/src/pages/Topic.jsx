@@ -43,7 +43,7 @@ function Topic() {
             to={`/hero/${handle}`} 
             className="text-cf-blue dark:text-cf-blue-light hover:underline text-sm sm:text-base"
           >
-            Back to Hero
+            Back to Home
           </Link>
         </div>
 

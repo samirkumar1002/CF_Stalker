@@ -3,6 +3,7 @@ import Landing from './pages/Landing';
 import HeroLayout from './pages/HeroLayout.jsx';
 import Hero from './pages/Hero.jsx';
 import Topic from './pages/Topic.jsx';
+import ContestAnalyzer from './pages/ContestAnalyzer.jsx';
 import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
                 <Route index element={<Hero />} />
                 <Route path="topic/:topic" element={<Topic />} />
               </Route>
+              <Route path="/contests" element={<ContestAnalyzer />} />
             </Routes>
           </main>
         </div>
