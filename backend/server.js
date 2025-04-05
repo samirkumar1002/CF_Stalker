@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // Enable CORS for all routes with specific configuration
 app.use(cors({
@@ -106,6 +106,10 @@ app.get('/api/contests/:division', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch contests' });
   }
+});
+
+app.get('/health', (req, res) => { //For checking if the server is running
+  res.send('OK');
 });
 
 app.get('/api/problems/rating/:division', async (req, res) => {

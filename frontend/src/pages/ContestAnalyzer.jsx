@@ -5,7 +5,7 @@ import ThemeToggle from '../components/ThemeToggle';
 import StatisticsCharts from '../components/StatisticsCharts';
 
 // API configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = 'http://localhost:5000' || import.meta.env.VITE_API_URL;
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 2000; // 2 seconds
 
