@@ -91,9 +91,15 @@ const ProblemByTopicSchema = new mongoose.Schema({
   }]
 });
 
+const VisitCounterSchema = new mongoose.Schema({
+  count: { type: Number, default: 0 },
+  lastUpdated: { type: Date, default: Date.now }
+});
+
 const Contest = mongoose.model('Contest', ContestSchema);
 const ProblemByRating = mongoose.model('ProblemByRating', ProblemByRatingSchema);
 const ProblemByTopic = mongoose.model('ProblemByTopic', ProblemByTopicSchema);
+const VisitCounter = mongoose.model('VisitCounter', VisitCounterSchema);
 
 // API endpoints
 app.get('/api/contests/:division', async (req, res) => {
@@ -126,6 +132,23 @@ app.get('/api/problems/topics/:division', async (req, res) => {
     res.json(problems);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch problems by topic' });
+  }
+});
+
+// Visit counter endpoint
+app.get('/api/visits', async (req, res) => {
+  try {
+    let counter = await VisitCounter.findOne();
+    if (!counter) {
+      counter = await VisitCounter.create({ count: 0 });
+    }
+    counter.count += 1;
+    counter.lastUpdated = new Date();
+    await counter.save();
+    res.json({ count: counter.count });
+  } catch (error) {
+    console.error('Error updating visit counter:', error);
+    res.status(500).json({ error: 'Failed to update visit counter' });
   }
 });
 
