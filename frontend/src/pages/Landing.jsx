@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import ThemeToggle from '../components/ThemeToggle';
-import { motion } from 'framer-motion';
-import { FaCode, FaChartLine, FaSearch, FaUsers } from 'react-icons/fa';
+
 
 function Landing() {
   const [handle, setHandle] = useState('');
@@ -23,17 +22,23 @@ function Landing() {
   };
 
   useEffect(() => {
-    const fetchVisitCount = async () => {
+    const updateVisitCount = async () => {
       try {
+        // First increment the counter
+        await fetch(`${import.meta.env.VITE_API_URL}/api/visits/increment`, {
+          method: 'POST'
+        });
+        
+        // Then fetch the updated count
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/visits`);
         const data = await response.json();
         setVisitCount(data.count);
       } catch (error) {
-        console.error('Error fetching visit count:', error);
+        console.error('Error updating visit count:', error);
       }
     };
 
-    fetchVisitCount();
+    updateVisitCount();
   }, []);
 
   return (
@@ -85,26 +90,10 @@ function Landing() {
           </div>
           <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-cf-text dark:text-cf-text-light">
             <p>© 2025 CF Stalker. All rights reserved.</p>
+            <p className="mt-2">Total Visits: <span className="text-cf-blue dark:text-cf-blue-light font-semibold">{visitCount.toLocaleString()}</span></p>
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 py-6">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-center md:text-left mb-4 md:mb-0">
-              <p className="text-gray-400">
-                © {new Date().getFullYear()} CF Stalker. All rights reserved.
-              </p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-400">Total Visits:</span>
-              <span className="text-cf-blue font-semibold">{visitCount.toLocaleString()}</span>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

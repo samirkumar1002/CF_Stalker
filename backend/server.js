@@ -135,8 +135,8 @@ app.get('/api/problems/topics/:division', async (req, res) => {
   }
 });
 
-// Visit counter endpoint
-app.get('/api/visits', async (req, res) => {
+// Visit counter endpoints
+app.post('/api/visits/increment', async (req, res) => {
   try {
     let counter = await VisitCounter.findOne();
     if (!counter) {
@@ -149,6 +149,19 @@ app.get('/api/visits', async (req, res) => {
   } catch (error) {
     console.error('Error updating visit counter:', error);
     res.status(500).json({ error: 'Failed to update visit counter' });
+  }
+});
+
+app.get('/api/visits', async (req, res) => {
+  try {
+    let counter = await VisitCounter.findOne();
+    if (!counter) {
+      counter = await VisitCounter.create({ count: 0 });
+    }
+    res.json({ count: counter.count });
+  } catch (error) {
+    console.error('Error fetching visit counter:', error);
+    res.status(500).json({ error: 'Failed to fetch visit counter' });
   }
 });
 
