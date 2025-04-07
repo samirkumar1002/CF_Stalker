@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import nodeCron from 'node-cron';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 
@@ -278,8 +277,22 @@ async function updateContestData() {
   }
 }
 
-// Schedule daily update at 3 AM
-nodeCron.schedule('0 3 * * *', updateContestData);
+// Function to check if it's 3 AM
+function is3AM() {
+  const now = new Date();
+  return now.getHours() === 3 && now.getMinutes() === 0 && now.getSeconds() === 0;
+}
+
+// Function to check time and update data
+function checkAndUpdateData() {
+  if (is3AM()) {
+    console.log('It\'s 3 AM! Starting data update...');
+    updateContestData();
+  }
+}
+
+// Start checking time every second
+setInterval(checkAndUpdateData, 1000);
 
 // Start server
 const startServer = async () => {
@@ -287,6 +300,7 @@ const startServer = async () => {
     await connectDB();
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
+      //console.log('Data update check is running every second');
     });
   } catch (err) {
     console.error('Failed to start server:', err);
