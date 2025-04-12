@@ -38,7 +38,17 @@ function HeroLayout() {
           const solvedByTopic = {};
           const unsolvedProblems = {};
           const problemLastSubmission = {}; // Track last submission time for each problem
+          const solvedProblemIds = new Set(); // Track all solved problem IDs
 
+          // First pass: identify all solved problems
+          data.result.forEach((submission) => {
+            const problemId = `${submission.problem.contestId}-${submission.problem.index}`;
+            if (submission.verdict === "OK") {
+              solvedProblemIds.add(problemId);
+            }
+          });
+
+          // Second pass: process submissions
           data.result.forEach((submission) => {
             const problemId = `${submission.problem.contestId}-${submission.problem.index}`;
             const submissionTime = submission.creationTimeSeconds * 1000;
@@ -75,8 +85,8 @@ function HeroLayout() {
                   solvedByTopic[tag].push(problemData);
                 });
               }
-            } else if (submission.verdict !== "OK") {
-              // Track unsolved problems
+            } else if (submission.verdict !== "OK" && !solvedProblemIds.has(problemId)) {
+              // Only track unsolved problems that have never been solved
               if (!unsolvedProblems[problemId]) {
                 unsolvedProblems[problemId] = {
                   ...problemData,
