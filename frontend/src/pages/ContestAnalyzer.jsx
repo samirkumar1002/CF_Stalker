@@ -236,7 +236,7 @@ function ContestAnalyzer() {
                           <tr key={`${problem.contestId}-${problem.index}`} className="hover:bg-gray-600 dark:hover:bg-gray-500 text-cf-text dark:text-cf-text-light">
                             <td className="px-2 py-2 border border-cf-gray dark:border-cf-gray-light">
                               <a
-                                href={`https://codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`}
+                                href={`https://codeforces.com/contest/${problem.contestId}/problem/${problem.id.split('-')[1]}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-cf-blue dark:text-cf-blue-light hover:underline"
@@ -314,7 +314,7 @@ function ContestAnalyzer() {
                           <tr key={`${problem.contestId}-${problem.index}`} className="hover:bg-gray-600 dark:hover:bg-gray-500 text-cf-text dark:text-cf-text-light">
                             <td className="px-2 py-2 border border-cf-gray dark:border-cf-gray-light">
                               <a
-                                href={`https://codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`}
+                                href={`https://codeforces.com/contest/${problem.contestId}/problem/${problem.id.split('-')[1]}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-cf-blue dark:text-cf-blue-light hover:underline"
