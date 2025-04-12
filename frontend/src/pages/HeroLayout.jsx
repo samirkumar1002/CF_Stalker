@@ -10,6 +10,7 @@ function HeroLayout() {
   const [userInfo, setUserInfo] = useState(null);
   const [solvedProblems, setSolvedProblems] = useState({});
   const [topicProblems, setTopicProblems] = useState({});
+  const [unsolvedProblems, setUnsolvedProblems] = useState([]);
 
   // Persistent filter state
   const [selectedRating, setSelectedRating] = useState(null);
@@ -35,33 +36,79 @@ function HeroLayout() {
         if (data.status === 'OK') {
           const solvedByRating = {};
           const solvedByTopic = {};
+          const unsolvedProblems = {};
+          const problemLastSubmission = {}; // Track last submission time for each problem
+
           data.result.forEach((submission) => {
+            const problemId = `${submission.problem.contestId}-${submission.problem.index}`;
+            const submissionTime = submission.creationTimeSeconds * 1000;
+            const problemData = {
+              id: problemId,
+              name: submission.problem.name,
+              time: submissionTime,
+              rating: submission.problem.rating,
+              tags: submission.problem.tags || []
+            };
+
+            // Update last submission time for this problem
+            if (!problemLastSubmission[problemId] || submissionTime > problemLastSubmission[problemId]) {
+              problemLastSubmission[problemId] = submissionTime;
+            }
+
             if (submission.verdict === "OK" && submission.problem.rating) {
               const rating = submission.problem.rating.toString();
-              const submissionTime = submission.creationTimeSeconds * 1000;
-              const problemData = {
-                id: `${submission.problem.contestId}-${submission.problem.index}-${submission.creationTimeSeconds}`,
-                name: submission.problem.name,
-                time: submissionTime,
-                rating: submission.problem.rating,
-                tags: submission.problem.tags || []
-              };
-              // Build rating mapping.
-              if (!solvedByRating[rating]) {
-                solvedByRating[rating] = [];
-              }
-              solvedByRating[rating].push(problemData);
-              // Build topic mapping.
-              problemData.tags.forEach((tag) => {
-                if (!solvedByTopic[tag]) {
-                  solvedByTopic[tag] = [];
+              
+              // Build rating mapping - only add if this is the most recent submission
+              if (submissionTime === problemLastSubmission[problemId]) {
+                if (!solvedByRating[rating]) {
+                  solvedByRating[rating] = [];
                 }
-                solvedByTopic[tag].push(problemData);
-              });
+                solvedByRating[rating].push(problemData);
+              }
+
+              // Build topic mapping - only add if this is the most recent submission
+              if (submissionTime === problemLastSubmission[problemId]) {
+                problemData.tags.forEach((tag) => {
+                  if (!solvedByTopic[tag]) {
+                    solvedByTopic[tag] = [];
+                  }
+                  solvedByTopic[tag].push(problemData);
+                });
+              }
+            } else if (submission.verdict !== "OK") {
+              // Track unsolved problems
+              if (!unsolvedProblems[problemId]) {
+                unsolvedProblems[problemId] = {
+                  ...problemData,
+                  attempts: 1
+                };
+              } else {
+                unsolvedProblems[problemId].attempts++;
+              }
             }
           });
+
+          // Remove duplicates from solved problems
+          Object.keys(solvedByRating).forEach(rating => {
+            const uniqueProblems = {};
+            solvedByRating[rating].forEach(problem => {
+              uniqueProblems[problem.id] = problem;
+            });
+            solvedByRating[rating] = Object.values(uniqueProblems);
+          });
+
+          Object.keys(solvedByTopic).forEach(topic => {
+            const uniqueProblems = {};
+            solvedByTopic[topic].forEach(problem => {
+              uniqueProblems[problem.id] = problem;
+            });
+            solvedByTopic[topic] = Object.values(uniqueProblems);
+          });
+
           setSolvedProblems(solvedByRating);
           setTopicProblems(solvedByTopic);
+          setUnsolvedProblems(Object.values(unsolvedProblems));
+          
           // Set default rating if not already set
           const sortedRatings = Object.keys(solvedByRating).sort((a, b) => a - b);
           if (!selectedRating && sortedRatings.length > 0) {
@@ -77,6 +124,7 @@ function HeroLayout() {
         userInfo,
         solvedProblems,
         topicProblems,
+        unsolvedProblems,
         selectedRating,
         setSelectedRating,
         fromDate,
